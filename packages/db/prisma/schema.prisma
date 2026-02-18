@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Provider {
+  openai
+  claude
+  cursor
+}
+
+enum AuthType {
+  apiKey
+  session
+  manual
+}
+
+enum AccountStatus {
+  active
+  expired
+  invalid
+  error
+}
+
+enum Confidence {
+  exact
+  estimated
+  manual
+}
+
+enum UsageSource {
+  official_api
+  official_export
+  manual
+}
+
+enum WindowType {
+  hour
+  day
+  week
+  month
+  billing_cycle
+}
+
+enum SyncStatus {
+  success
+  failure
+}
+
+model Account {
+  id              String          @id @default(uuid())
+  provider        Provider
+  displayName     String
+  orgWorkspaceId  String?
+  authType        AuthType
+  syncEnabled     Boolean         @default(true)
+  syncIntervalSec Int?
+  status          AccountStatus   @default(active)
+  lastValidatedAt DateTime?
+  expiresAt       DateTime?
+  lastError       String?
+  credentialRef   String          @unique
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  snapshots       UsageSnapshot[]
+  syncRuns        SyncRun[]
+
+  @@index([provider])
+}
+
+model UsageSnapshot {
+  id             String      @id @default(uuid())
+  accountId      String
+  provider       Provider
+  windowType     WindowType
+  windowStart    DateTime
+  windowEnd      DateTime
+  usedValue      Float
+  usedUnit       String
+  limitValue     Float
+  limitUnit      String
+  remainingValue Float
+  batteryPercent Float
+  confidence     Confidence
+  source         UsageSource
+  fetchedAt      DateTime
+  createdAt      DateTime    @default(now())
+
+  account        Account     @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId, fetchedAt])
+}
+
+model SyncRun {
+  id           String     @id @default(uuid())
+  accountId    String
+  startedAt    DateTime
+  finishedAt   DateTime?
+  status       SyncStatus
+  attempt      Int
+  backoffMs    Int
+  errorType    String?
+  errorMessage String?
+
+  account      Account    @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId, startedAt])
+}
+
+model AppSetting {
+  id               String   @id @default("singleton")
+  lowBatteryPercent Int     @default(20)
+  syncFailureCount Int      @default(3)
+  pollingIntervalSec Int    @default(120)
+  debugLogging     Boolean  @default(false)
+  updatedAt        DateTime @updatedAt
+}

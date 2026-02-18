@@ -1,0 +1,8 @@
+node_modules
+dist
+coverage
+*.log
+agent-battery.db
+packages/db/prisma/dev.db
+apps/desktop/dist
+.DS_Store

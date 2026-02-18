@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "jsx": "react-jsx",
+    "types": ["node", "electron"],
+    "paths": {
+      "@/*": ["renderer/src/*"]
+    }
+  },
+  "include": ["electron/**/*.ts", "renderer/src/**/*.ts", "renderer/src/**/*.tsx"]
+}

@@ -1,0 +1,40 @@
+{
+  "name": "@agent-battery/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/electron/main.js",
+  "scripts": {
+    "dev": "concurrently \"npm:dev:renderer\" \"npm:dev:electron\"",
+    "dev:renderer": "vite --config renderer/vite.config.ts",
+    "dev:electron": "tsx watch electron/main.ts",
+    "build": "npm run build:renderer && npm run build:electron",
+    "build:renderer": "vite build --config renderer/vite.config.ts",
+    "build:electron": "tsup electron/main.ts electron/preload.ts --format esm --out-dir dist/electron",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint electron renderer/src --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "@agent-battery/db": "0.1.0",
+    "@agent-battery/shared": "0.1.0",
+    "@prisma/client": "^6.4.1",
+    "@tanstack/react-query": "^5.66.9",
+    "electron": "^35.0.0",
+    "keytar": "^7.9.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "recharts": "^2.15.1",
+    "zustand": "^5.0.3",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.4.1",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
+    "vite": "^6.2.2"
+  }
+}
