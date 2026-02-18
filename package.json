@@ -8,9 +8,9 @@
   ],
   "scripts": {
     "dev": "npm run dev -w @agent-battery/desktop",
-    "build": "npm run build -ws",
-    "typecheck": "npm run typecheck -ws",
-    "lint": "npm run lint -ws",
+    "build": "npm run build --ws",
+    "typecheck": "npm run typecheck --ws",
+    "lint": "npm run lint --ws",
     "test": "vitest run",
     "test:watch": "vitest"
   },

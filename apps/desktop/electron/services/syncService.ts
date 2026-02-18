@@ -1,4 +1,4 @@
-import type { Account, UsageWindow } from '@agent-battery/shared';
+import type { UsageWindow } from '@agent-battery/shared';
 import { ensureSettings, prisma } from '@agent-battery/db';
 import { OpenAIAdapter } from '../providers/openai.adapter.js';
 import { ClaudeAdapter } from '../providers/claude.adapter.js';
