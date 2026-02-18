@@ -1,5 +1,7 @@
 # Agent Battery
 
+[![CI](https://github.com/arianthox/PowerPals/actions/workflows/ci.yml/badge.svg)](https://github.com/arianthox/PowerPals/actions/workflows/ci.yml)
+
 Cross-platform desktop app (Electron + React + TypeScript + SQLite) for tracking AI usage batteries across OpenAI/ChatGPT, Claude, and Cursor accounts.
 
 ## Architecture summary
