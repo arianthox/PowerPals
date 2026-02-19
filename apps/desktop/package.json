@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "concurrently \"npm:dev:renderer\" \"npm:dev:electron\"",
     "dev:renderer": "vite --config renderer/vite.config.ts",
-    "dev:electron": "tsx watch electron/main.ts",
+    "dev:electron": "cross-env NODE_ENV=development electron --import tsx ./electron/main.ts",
     "build": "npm run build:renderer && npm run build:electron",
     "build:renderer": "vite build --config renderer/vite.config.ts",
     "build:electron": "tsup electron/main.ts electron/preload.ts --format esm --out-dir dist/electron",
